@@ -1,6 +1,5 @@
 
-# Rust ![alt text](https://www.rust-lang.org/logos/rust-logo-blk.svg "Rust Logo")
-
+# Rust
 ### [rust-lang.org](rust-lang.org)
 
 ---
@@ -40,8 +39,10 @@
 ---
 
 ```
+fn main() {
   let x = 5;
   x = 6;
+}
 ```
 
 @[1](Immutable by default)
@@ -50,12 +51,8 @@
 ---?code=src/bin/immutable_by_default.rs&lang=rust
 
 @[2](The **mut** keyword makes a variable mutable)
+@[1-6](Ouput <br/> `The value of x is: 5` <br/> `The value of x is: 6`)
 
----?code=src/bin/immutable_by_default.rs&lang=rust
-
-Output  
-> The value of x is: 5
-> The value of x is: 6
 
 
 
