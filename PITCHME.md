@@ -33,10 +33,11 @@
   * `rustup update`
 
 ---?code=src/bin/hello_world.rs&lang=rust
-# Hellow World!
 
 @[1](Functions)
 @[2](Macros)
+
+#### Hellow World!
 
 ---
 
