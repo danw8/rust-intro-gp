@@ -32,11 +32,8 @@
 * For all platforms update Rust
   * `rustup update`
 
----
-
+---?code=src/bin/hello_world.rs&lang=rust
 # Hellow World!
-
-?code=src/bin/hello_world.rs&lang=rust
 
 @[1](Functions)
 @[2](Macros)
