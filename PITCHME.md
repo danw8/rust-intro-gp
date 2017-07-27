@@ -1,6 +1,5 @@
 
-# Rust: 
-![alt text](https://www.rust-lang.org/logos/rust-logo-blk.svg "Rust Logo")
+# Rust ![alt text](https://www.rust-lang.org/logos/rust-logo-blk.svg "Rust Logo")
 
 ### [rust-lang.org](rust-lang.org)
 
@@ -34,10 +33,28 @@
 
 ---?code=src/bin/hello_world.rs&lang=rust
 
-@[1](Functions)
+@[1](Function Definitions)
 @[2](Macros)
 
 #### Hellow World!
 
 ---
+
+```
+  let x = 5;
+  x = 6;
+```
+#### Immutable by default
+error[E0384]: re-assignment of immutable variable `x`
+
+---?code=src/bin/immutable_by_default.rs&lang=rust
+
+@[2](The 'mut' keyword makes a variable mutable)
+@[1-6](output  
+The value of x is: 5  
+The value of x is: 6
+)
+
+---
+
 
