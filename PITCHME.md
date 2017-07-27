@@ -1,5 +1,6 @@
 
-# Rust
+# Rust: 
+![alt text](https://www.rust-lang.org/logos/rust-logo-blk.svg "Rust Logo")
 
 ### [rust-lang.org](rust-lang.org)
 
@@ -28,6 +29,13 @@
 * Linux/Mac
   * `curl https://sh.rustup.rs -sSf | sh`
 
-* update Rust for all platforms
+* For all platforms update Rust
   * `rustup update`
+
+---
+
+# Hellow World!
+
+---?code=src/bin/hello_world.rs&lang=rust
+
 
