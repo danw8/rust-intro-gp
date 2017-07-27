@@ -36,6 +36,10 @@
 
 # Hellow World!
 
----?code=src/bin/hello_world.rs&lang=rust
++++?code=src/bin/hello_world.rs&lang=rust
 
+@[1](Functions)
+@[2](Macros)
+
+---
 
