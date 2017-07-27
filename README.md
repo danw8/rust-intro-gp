@@ -4,4 +4,4 @@ This is an introduction to the rust language made for Centeva internal conferenc
 
 # View the presentation on gitpitch.com
 
-[slides](gitpitch.com)
+[slides](https://gitpitch.com/danw8/rust-intro-gp)

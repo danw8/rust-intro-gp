@@ -22,12 +22,12 @@
 # Installation
 
 * Windows
-..* [https://rustup.rs](https://rustup.rs)
-..* download and run rustup-init.exe
+  * [https://rustup.rs](https://rustup.rs)
+  * download and run rustup-init.exe
 
 * Linux/Mac
-..* curl https://sh.rustup.rs -sSf | sh
+  * `curl https://sh.rustup.rs -sSf | sh`
 
 * update Rust for all platforms
-..* rustup update
+  * `rustup update`
 
