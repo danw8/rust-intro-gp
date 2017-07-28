@@ -67,7 +67,7 @@ fn main() {
 ```
 
 @[2](Immutable by default)
-@[2](error[E0384]: re-assignment of immutable variable 'x')
+@[3](error[E0384]: re-assignment of immutable variable 'x')
 
 ---?code=src/bin/immutable_by_default.rs&lang=rust
 
@@ -152,7 +152,7 @@ fn main() {
 @[8](The use of the **return** keyword is optional. notice there is no semi-colon)
 @[8](You could rewrite this to **return x + 1;** it's legal but considered bad form in Rust)
 
----?code=src/bin/unittypefunction.rs&lang=rust
+---?code=src/unittypefunction.rs&lang=rust
 @[1-3](This function returns a **()** unit type)
 @[1-3](the unit type is simaler to void in other languages)
 @[1](You do not need to specify the type for a funciton that returns a unit)
