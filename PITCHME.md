@@ -165,7 +165,7 @@ impl Bar {
 let bar = Bar::X(10);
 ```
 @[2](Enum variants can hold data)
-@[6](Enums can also be implemented)
+@[6-13](Enums can also be implemented)
 
 ---
 
