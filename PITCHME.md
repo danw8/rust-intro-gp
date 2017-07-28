@@ -135,11 +135,13 @@ impl User {
 		User {
 			name: name,
 			email: email,
-			enable: true,
+			enabled: true,
 		}
 	}
 }
 ```
+@[1-5](Struct data)
+@[7-15](Struct implementation)
 
 ---
 
@@ -151,9 +153,19 @@ enum Bar {
 	Y,
 }
 
+impl Bar {
+    fn get_x(self) -> Option<u32>{
+        match self {
+            Bar::X(n) => return Some(n),
+            _ => return None,
+        }
+    }
+}
+
 let bar = Bar::X(10);
 ```
 @[2](Enum variants can hold data)
+@[6](Enums can also be implemented)
 
 ---
 
