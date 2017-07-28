@@ -14,6 +14,7 @@
 * type inference
 * minimal runtime
 * efficient C bindings
+
 ---
 
 # Why Rust
@@ -24,6 +25,7 @@
 * High performance
 * No garbage collection
 * Powerful abstractions
+
 ---
 
 # What is Rust good at?
@@ -48,6 +50,7 @@
 * For all platforms update Rust
   * `rustup update`
 
+
 ---?code=src/bin/hello_world.rs&lang=rust
 
 @[1-3](Hello World!)
@@ -63,8 +66,8 @@ fn main() {
 }
 ```
 
-@[1](Immutable by default)
-@[1-2](error[E0384]: re-assignment of immutable variable 'x')
+@[2](Immutable by default)
+@[2](error[E0384]: re-assignment of immutable variable 'x')
 
 ---?code=src/bin/immutable_by_default.rs&lang=rust
 
@@ -84,8 +87,11 @@ fn main() {
 @[1-6](Output <br/> `The value of x is: five`)
 
 ---
+
 # Rust Data Types
+
 ---
+
 # Integers
 
 | Length | Signed | Unsigned |
@@ -98,12 +104,12 @@ fn main() {
 
 ---?code=src/bin/integers.rs&lang=rust
 
-@[2-3](Default integer is i32 <br/> Output </br> The value of default_bits: 5)
-@[4-5](Use the type suffix to make a integer literal for a certain type. Such as 2**u8** in this declaration of an 8-bit unsigned integer)
-@[6-7](Integer literals can use Hex such as **0xf**i16 for a 16 bit integer whose value is 15)
+@[2-3](Default integer is i32)
+@[4-5](Type suffix 2**u8** of literal)
+@[6-7](Hex **0xf**i16 for a 16 bit integer whose value is 15)
 @[8-9](Octal can also be used **0o77**i64)
 @[10-11](Or Binary **0b1111_0000**i32)
-@[12-13](Or a byte array **b'A'**, but this is only for 8-bit unsigned integers)
+@[12-13](Or a byte array **b'A'** _u8 only_)
 
 ---?code=src/bin/floats.rs&lang=rust
 
@@ -126,7 +132,7 @@ fn main() {
 
 @[1-6](Rust has two string types &str and String)
 @[2-3](This is a &str. It is a pointer to a String)
-@[3-4](This is a String, It is not a pointer)
+@[4-5](This is a String, It is not a pointer)
 @[1-6](Rust need the two types of Strings for ownership reasons, More on ownership later.)
 
 ---?code=src/bin/arrays.rs&lang=rust
@@ -146,17 +152,25 @@ fn main() {
 @[8](The use of the **return** keyword is optional. notice there is no semi-colon)
 @[8](You could rewrite this to **return x + 1;** it's legal but considered bad form in Rust)
 
+---?code=src/bin/unittypefunction.rs&lang=rust
+@[1-3](This function returns a **()** unit type)
+@[1-3](the unit type is simaler to void in other languages)
+@[1](You do not need to specify the type for a funciton that returns a unit)
+
 --- 
+
 # Comments
 #### C style
 ```
 // This is a comment
 ```
+
 ---?code=src/bin/control.rs&lang=rust
+
 @[3-5](if expression)
 @[6](Expression can be assigned to variables)
 @[7-10](while loop)
-@[11-14](for loop use iterators)
+@[11-14](for loops use iterators)
 @[15-17](generic loop, it never ends unless you **break** it)
 
 ---?code=src/bin/namedloops.rs&lang=rust
@@ -164,7 +178,91 @@ fn main() {
 @[3](This is a named loop)
 @[6]( So is this.)
 @[9-10](You can break named loops directly)
-@[1-14](Output <br/> `In outer loop, x's value is: 1` <br/> `In outer loop, x's value is: 2` <br/> `In outer loop, x's value is: 3` <br/> `In outer loop, x's value is: 4` <br/> `In outer loop, x's value is: 5` <br/> `In outer loop, x's value is: 6` <br/> `In outer loop, x's value is: 7` <br/> `In outer loop, x's value is: 8`)
+
+---
+
+Output 
+```
+In outer loop, x's value is: 1
+In outer loop, x's value is: 2
+In outer loop, x's value is: 3
+In inner loop, x's value is: 4
+In outer loop, x's value is: 5
+In inner loop, x's value is: 6
+In outer loop, x's value is: 7
+In inner loop, x's value is: 8
+```
+
+---
+
+# Ownership
+
+Ownership is the most unique feature in rust  
+It is what enable memory safety without the need for garbage collection
+
+---
+
+#### Variable scope
+
+```
+{
+    let s = "hello"
+    // do stuff with s here
+}
+```
+
+@[1](_s_ is not declared yet and is not valid)
+@[2](_s_ is declare and is no valid)
+@[3]( do stuff with _s_ here)
+@[4](_s_ goes out of scope and the **drop** method is called)
+@[1-4](This is similar to other languages)
+
+---
+
+#### Copy
+
+```
+{
+    let s1 = "hi";
+    let s2 = s1;
+    println!("{}{}", s1, s2);
+}
+```
+@[2](string literals are created on the stack)
+@[3](stack variable are a copy type)
+@[4](both _s1_ and _s2_ are valid after a copy)
+
+---
+#### Move
+```
+{
+    let s1 = String::from("hi");
+    let s2 = s1;
+    println!("{}{}", s2);
+}
+```
+@[1-5](This looks similar to the previous example)
+@[2](The String type is heap allocated)
+@[3](Heap allocated value are move by default)
+@[3]( _s1_ moved into _s2_ here and is no longer valid)
+@[4]( only _s2_ is valid here)
+
+---
+#### Clone
+```
+{
+    let s1 = String::from("hi");
+    let s2 = s1.clone();
+    println!("{}{}", s1, s2);
+}
+```
+@[3](Here we use the clone method to do a deep copy of _s1_ on the heap)
+@[4](_s1_ and _s2_ now point to different memory on the heap with the same data)
+@[4](we can now use both s1 and s2)
+
+---
+
+
 
 
 
