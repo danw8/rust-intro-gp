@@ -192,6 +192,58 @@ let names: Vec<&str> = vec!["Bob","Stan","Mike"];
 
 ---
 
+### Control Flow
+
+---
+
+#### If else expressions
+
+```
+if x == 5 {
+	println!("It's 5!");
+} else if x == 6 {
+	println!("I love the number 6");
+} else {
+	println!("It's not 5 or 6");
+}
+```
+
+---
+
+#### Match Expressions
+
+```
+let num: i32 = 6;
+let x = match(num){
+	5 => "It's five!",
+	6 => "I love sixes",
+	_ => "It's not 5 or 6",
+};
+```
+
+---
+
+#### If Let
+
+```
+let x = Some(5);
+if let Some(five) = x {
+	println!("{}", five);
+}
+```
+Best way to match on just one Enum variant
+
+---
+
+#### If assignment
+
+```
+let x = 5;
+let five  = if x == 5 { "five" } else { "not five" };
+```
+
+---
+
 ### Modules
 
 * The '**mod**' keyword declares a new module
@@ -207,7 +259,7 @@ let names: Vec<&str> = vec!["Bob","Stan","Mike"];
 
 ---
 
-#### Examples
+#### Module Example
 
 ```
 mod client{
@@ -246,6 +298,7 @@ Directory Structure
 |  |  +-- client  
 |  |  |  +-- mod.rs  
 ```
+
 mod.rs
 ```
 pub fn connect(){
@@ -253,6 +306,94 @@ pub fn connect(){
 }
 ```
 
+---
+
+#### Error Handling
+
+panic! vs Result
+* panic! is for unrecoverable errors
+* Result is for error that might be recoverable
+
+---
+panic! example
+```
+fn main() {
+	panic!("crash and burn");
+}
+```
+
+```
+thread 'main' panicked at 'crash and burn', src/main.rs:2
+note: Run with `RUST_BACKTRACE=1` for a backtrace.
+error: Process didn't exit successfully: `target/debug/panic` (exit code: 101)
+```
+
+---
+
+```
+enum Result<T, E> {
+	Ok(T),
+	Err(E),
+}
+```
+
+---
+
+Result example
+```
+use std::fs::File;
+
+fn main() {
+    let f = File::open("hello.txt");
+
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+}
+```
+
+---
+#### Generics
+
+```
+fn largest_i32(list: &[i32]) -> i32 {
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+```
+Now we want to check the largest for an array of f64
+
+---
+
+```
+fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+```
+
+@[1](The **T** is the type we send into the funciton largest)
+@[1]( **PartialOrd** and **Copy** are Traits)
+@[1]( The **+** between the traits means that T must implement both these traits)
+@[1-9]( Rusts numeric types(i32, f64, u8 etc...) already implement both these traits so all of the numeric types can now be used in this funciton.)
+
+---
 
 
 
