@@ -32,6 +32,20 @@ fn main() {
 ```
 
 ---
+
+#### Compiling Hello World
+
+* rustc main.rs
+
+---
+
+#### Using Cargo 
+
+* cargo new hello_world --bin
+* cd hello_world
+* cargo build
+
+---
 #### Variable binding
 
 ```
@@ -178,7 +192,63 @@ let names: Vec<&str> = vec!["Bob","Stan","Mike"];
 
 ---
 
+### Modules
 
+* The **mod** keyword declares a new module
+* Module functions, types, constants are private by default, **pub** makes the visible
+* The **use** keyword brings modules or definitions in modules into scope
+
+---
+
+#### Modules in multiple files
+
+* The file or folder name matches the module name
+* If a folder is used it needs a mod.rs file inside it.
+
+---
+
+#### Examples
+
+```
+mod client{
+    pub fn connect(){
+        ...
+    }
+}
+```
+This is an module decalre in the parents source file
+
+---
+
+```
+mod client;
+```
+* The client module is outside of the parents source
+* Rust then looks for a folder name client or a source file name client.rs
+
+---
+
+client.rs
+
+```
+pub fn connect(){
+    // ...
+}
+```
+
+---
+
+.
++-- src
+|  +-- main.rs
+|  |  +-- client
+|  |  |  +-- mod.rs
+
+```
+pub fn connect(){
+    // ...
+}
+```
 
 
 
