@@ -194,9 +194,9 @@ let names: Vec<&str> = vec!["Bob","Stan","Mike"];
 
 ### Modules
 
-* The **mod** keyword declares a new module
-* Module functions, types, constants are private by default, **pub** makes the visible
-* The **use** keyword brings modules or definitions in modules into scope
+* The '**mod**' keyword declares a new module
+* Module functions, types and constants are private by default, '**pub**' makes them visible
+* The '**use**' keyword brings modules or definitions in modules into scope
 
 ---
 
@@ -216,7 +216,7 @@ mod client{
     }
 }
 ```
-This is an module decalre in the parents source file
+This is a module declared in the parents source file
 
 ---
 
@@ -224,7 +224,7 @@ This is an module decalre in the parents source file
 mod client;
 ```
 * The client module is outside of the parents source
-* Rust then looks for a folder name client or a source file name client.rs
+* Rust then looks for a folder named client or a source file named client.rs
 
 ---
 
@@ -239,10 +239,10 @@ pub fn connect(){
 ---
 
 .
-+-- src
-|  +-- main.rs
-|  |  +-- client
-|  |  |  +-- mod.rs
++-- src  
+|  +-- main.rs  
+|  |  +-- client  
+|  |  |  +-- mod.rs  
 
 ```
 pub fn connect(){
