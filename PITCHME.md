@@ -322,12 +322,11 @@ fn main() {
 }
 ```
 
-ouput
-```
-thread 'main' panicked at 'crash and burn', src/main.rs:2
-note: Run with `RUST_BACKTRACE=1` for a backtrace.
-error: Process didn't exit successfully: `target/debug/panic` (exit code: 101)
-```
+ouput  
+  
+thread 'main' panicked at 'crash and burn', src/main.rs:2  
+note: Run with `RUST_BACKTRACE=1` for a backtrace.  
+error: Process didn't exit successfully: `target/debug/panic` (exit code: 101)  
 
 ---
 
@@ -438,7 +437,9 @@ impl HasArea for Square {
     }
 }
 ```
-Implementing the HasArea trait for the Square struct
+@[1-11](Implementing the HasArea trait for the Square struct)
+@[1-11](Traits can be implemented for any type including basic types)
+@[1-11](It is generally bad practise to implement for basic types though)
 
 ---
 
