@@ -237,6 +237,8 @@ pub fn connect(){
 ```
 
 ---
+
+Directory Structure
 ```
 .
 +-- src  
@@ -244,6 +246,7 @@ pub fn connect(){
 |  |  +-- client  
 |  |  |  +-- mod.rs  
 ```
+mod.rs
 ```
 pub fn connect(){
     // ...
