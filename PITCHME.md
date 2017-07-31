@@ -264,7 +264,7 @@ let five  = if x == 5 { "five" } else { "not five" };
 ```
 mod client{
     pub fn connect(){
-        ...
+        // ...
     }
 }
 ```
@@ -322,6 +322,7 @@ fn main() {
 }
 ```
 
+ouput
 ```
 thread 'main' panicked at 'crash and burn', src/main.rs:2
 note: Run with `RUST_BACKTRACE=1` for a backtrace.
@@ -330,6 +331,7 @@ error: Process didn't exit successfully: `target/debug/panic` (exit code: 101)
 
 ---
 
+Result Enum
 ```
 enum Result<T, E> {
 	Ok(T),
@@ -371,7 +373,7 @@ fn largest_i32(list: &[i32]) -> i32 {
     largest
 }
 ```
-Now we want to check the largest for an array of f64
+@[1](This is good for only i32, Now we want to check the largest for an array of f64)
 
 ---
 
@@ -388,12 +390,72 @@ fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
 }
 ```
 
-@[1](The **T** is the type we send into the funciton largest)
+@[1](The **T** is the type we send into the largest function )
 @[1]( **PartialOrd** and **Copy** are Traits)
 @[1]( The **+** between the traits means that T must implement both these traits)
-@[1-9]( Rusts numeric types(i32, f64, u8 etc...) already implement both these traits so all of the numeric types can now be used in this funciton.)
+@[1-9]( Rusts numeric types(i32, f64, u8 etc.) already implement both these traits so all of the numeric types can now be used in this funciton.)
 
 ---
 
+#### Implementing traits
 
+```
+trait HasArea {
+	fn area(&self) -> f64;
+}
+```
+Define the Trait
+
+---
+
+```
+struct Circle {
+    x: f64,
+    y: f64,
+    radius: f64,
+}
+
+impl HasArea for Circle {
+    fn area(&self) -> f64 {
+        std::f64::consts::PI * (self.radius * self.radius)
+    }
+}
+```
+Implementing the HasArea trait for the Circle struct
+
+---
+
+```
+struct Square {
+    x: f64,
+    y: f64,
+    side: f64,
+}
+
+impl HasArea for Square {
+    fn area(&self) -> f64 {
+        self.side * self.side
+    }
+}
+```
+Implementing the HasArea trait for the Square struct
+
+---
+
+```
+fn print_area<T: HasArea>(shape: T) {
+    println!("This shape has an area of {}", shape.area());
+}
+
+fn main() {
+    let c = Circle { x: 0.0f64, y: 0.0f64, radius: 1.0f64, };
+    let s = Square { x: 0.0f64, y: 0.0f64, side: 1.0f64, };
+    print_area(c);
+    print_area(s);
+}
+```
+
+Now we can make a print area function that works with both Circle and Square
+
+---
 
