@@ -237,13 +237,13 @@ pub fn connect(){
 ```
 
 ---
-
+```
 .
 +-- src  
 |  +-- main.rs  
 |  |  +-- client  
 |  |  |  +-- mod.rs  
-
+```
 ```
 pub fn connect(){
     // ...
