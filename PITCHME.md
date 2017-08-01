@@ -1,5 +1,5 @@
 ## Rust
-[rust-lang.org]
+[rust-lang.org](rust-lang.org)
 
 ---
 
@@ -10,16 +10,33 @@ Rust is a systems programming language that runs blazingly fast, prevents segfau
 ---
 
 #### Who uses Rust?
-* Mozilla (Servo/Firefox) they are also the creator of Rust.
-* Microsoft (vscode)
+* Mozilla (Servo/Firefox) they are also the creators of Rust.
+* Microsoft (ripgrep in vscode) 
 * Dropbox
 * Coursera
 * npm
 
 ---
 
-#### Who cares?
-Let's look at some code
+#### Rust vs ?
+
+Why use Rust?
+* Fast, zero cost abstractions
+* No Garbage collector
+* Memory safety at compile time
+* Designed to help prevent programmer bugs
+* Modern syntax
+* Low level results from a high level language
+* Interoperability with C (Can create C libraries)
+
+Not use Rust
+* Needs more mature libraries
+* Large existing code base written in language X
+* All of our developers are only willing to work in language X
+
+---
+
+### Show me the code
 
 ---
 
@@ -244,7 +261,65 @@ let five  = if x == 5 { "five" } else { "not five" };
 
 ---
 
+#### loop 
+
+```
+loop {
+	println!("This is a neverending loop);
+}
+```
+
+---
+
+#### for loop 
+
+```
+let array: [i32; 4] = [1, 2, 3, 4];
+for number in array.iter(){
+	println!("{}", number);
+}
+```
+
+---
+
+#### while loop
+
+```
+let mut x = 5;
+while x > 0 {
+	println!("{}", x);
+	x = x - 1;
+}
+```
+
+---
+
+#### named loops
+
+```
+fn main() {
+	let mut x = 0;
+	'outer: loop {
+		x += 1;
+		println!("In outer loop, x's value is: {}", x);
+		'inner: while x >= 3 {
+			x += 1;
+			println!("In inner loop, x's value is: {}", x);
+			if x > 6 { break 'outer }
+			if x % 2 == 0 { break 'inner }
+		}
+
+	}
+}
+```
+
+---
+
 ### Modules
+
+---
+
+#### Modules
 
 * The '**mod**' keyword declares a new module
 * Module functions, types and constants are private by default, '**pub**' makes them visible
@@ -308,14 +383,19 @@ pub fn connect(){
 
 ---
 
-#### Error Handling
+### Error Handling
 
-panic! vs Result
+---
+
+#### panic! vs Result
+
 * panic! is for unrecoverable errors
 * Result is for error that might be recoverable
 
 ---
-panic! example
+
+#### panic! example
+
 ```
 fn main() {
 	panic!("crash and burn");
@@ -330,7 +410,8 @@ error: Process didn't exit successfully: `target/debug/panic` (exit code: 101)
 
 ---
 
-Result Enum
+#### Result Enum
+
 ```
 enum Result<T, E> {
 	Ok(T),
@@ -340,7 +421,7 @@ enum Result<T, E> {
 
 ---
 
-Result example
+#### Result example
 ```
 use std::fs::File;
 
@@ -357,7 +438,12 @@ fn main() {
 ```
 
 ---
-#### Generics
+
+### Generics
+
+---
+
+#### Non-Generic Function
 
 ```
 fn largest_i32(list: &[i32]) -> i32 {
@@ -375,6 +461,8 @@ fn largest_i32(list: &[i32]) -> i32 {
 @[1](This is good for only i32, Now we want to check the largest for an array of f64)
 
 ---
+
+#### Generic Function
 
 ```
 fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
@@ -396,16 +484,21 @@ fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
 
 ---
 
-#### Implementing traits
+### Implementing traits
+
+---
+
+#### Defining Traits
 
 ```
 trait HasArea {
 	fn area(&self) -> f64;
 }
 ```
-Define the Trait
 
 ---
+
+#### Implement HasArea for Circle
 
 ```
 struct Circle {
@@ -420,9 +513,10 @@ impl HasArea for Circle {
     }
 }
 ```
-Implementing the HasArea trait for the Circle struct
 
 ---
+
+#### Implement HasArea for Square
 
 ```
 struct Square {
@@ -443,6 +537,8 @@ impl HasArea for Square {
 
 ---
 
+#### Using HasArea With Circle and Square
+
 ```
 fn print_area<T: HasArea>(shape: T) {
     println!("This shape has an area of {}", shape.area());
@@ -456,7 +552,172 @@ fn main() {
 }
 ```
 
-Now we can make a print area function that works with both Circle and Square
+---
+
+### Lifetimes
+
+* Lifetimes can be thought of similar to the scope of a variable
+* You can give lifetimes a name
+* Many lifetimes can be inferred often called Lifetime Elision
+* Lifetimes prevent dangling references
+
+---
+#### The Borrow Checker
+
+```
+{
+    let r;         // -------+-- 'a
+                   //        |
+    {              //        |
+        let x = 5; // -+-----+-- 'b
+        r = &x;    //  |     |
+    }              // -+     |
+                   //        |
+    println!("r: {}", r); // |
+                   //        |
+                   // -------+
+}
+```
+
+This code gets a compilation error of `error: 'x' does not live long enough`
 
 ---
 
+#### Explicate lifetime annotation(function)
+
+```
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+@[1](The x: **&'a** str, y: **&'a str** are input lifetimes)
+@[1](The **&'a** str return type is the output lifetime)
+@[1](The **<&'a>** at the begining of the function is the lifetime definition)
+
+---
+
+#### Explicate lifetime annotation(struct)
+
+```
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+}
+
+fn main() {
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.')
+        .next()
+        .expect("Could not find a '.'");
+    let i = ImportantExcerpt { part: first_sentence };
+}
+```
+
+@[1](Lifetimes on struct cannot be elided)
+
+---
+
+#### Lifetimes on impl required
+```
+impl<'a> ImportantExcerpt<'a> {
+    fn level(&self) -> i32 {
+        3
+    }
+}
+```
+
+---
+
+#### Example of Type Parameters, Trait Bounds and Lifetimes together
+```
+use std::fmt::Display;
+
+fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+    where T: Display
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+---
+
+### Functional Language Features
+
+---
+
+#### Closures
+
+```
+fn  add_one_v1   (x: i32) -> i32 { x + 1 }
+let add_one_v2 = |x: i32| -> i32 { x + 1 };
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;
+```
+
+@[1](function)
+@[2-4](closures)
+
+---
+
+#### Iterators
+
+```
+trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+
+    // methods with default implementations elided
+}
+```
+
+---
+
+#### Impl an Iterator
+ 
+```
+struct Counter {
+    count: u32,
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.count += 1;
+
+        if self.count < 6 {
+            Some(self.count)
+        } else {
+            None
+        }
+    }
+}
+```
+
+---
+
+#### Using Counter for loop
+
+```
+let counter = Counter { count: 0 };
+for count in counter.iter() {
+	println!("The count is: {}" count);
+}
+```
+
+#### Iterator functions
+
+```
+let counter = Counter { count: 0 };
+
+```
