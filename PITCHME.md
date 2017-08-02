@@ -9,6 +9,16 @@ Rust is a systems programming language that runs blazingly fast, prevents segfau
 
 ---
 
+#### What is Rust good at?
+
+* Kernels/operating systems
+* Device drivers
+* Web applications
+* Games
+* Etc...
+
+---
+
 #### Who uses Rust?
 * Mozilla (Servo/Firefox) they are also the creators of Rust.
 * Microsoft (ripgrep in vscode) 
@@ -20,7 +30,7 @@ Rust is a systems programming language that runs blazingly fast, prevents segfau
 
 #### Rust vs ?
 
-Why use Rust?
+Use Rust For
 * Fast, zero cost abstractions
 * No Garbage collector
 * Memory safety at compile time
@@ -33,10 +43,10 @@ Why use Rust?
 
 #### Rust vs ?
 
-Not use Rust
-* Needs more mature libraries
+Don't use Rust if
 * Large existing code base written in language X
 * All of our developers are only willing to work in language X
+* You can't live without Garbage collection
 
 ---
 
@@ -102,8 +112,8 @@ let x: i32 = 5;
 
 #### Floats
 
-* f64 a 64 bit decimal (default)
-* f32 a 32 bit decimal
+* f64 a 64 bit floating point number (default)
+* f32 a 32 bit floating point number
 
 ```
 let x: f64 = 5.0;
@@ -114,7 +124,7 @@ let x: f64 = 5.0;
 #### Strings
 
 * **&str** a pointer to a borrowed string. 
-* **String** a struct that contains and helps with string manipulation.
+* **String** a owned struct that contains and helps with string manipulation.
 
 ```
 let name: &str = "Hedgehogs";
@@ -319,6 +329,21 @@ fn main() {
 
 ---
 
+#### Functions
+
+```
+fn add_two(num: i32) -> i32 {
+	num + 2
+}
+
+fn main() {
+	let four = add_two(2);
+	println!("{}", four);
+}
+```
+
+---
+
 ### Modules
 
 ---
@@ -484,7 +509,7 @@ fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
 @[1](The **T** is the type we send into the largest function )
 @[1]( **PartialOrd** and **Copy** are Traits)
 @[1]( The **+** between the traits means that T must implement both these traits)
-@[1-9]( Rusts numeric types(i32, f64, u8 etc.) already implement both these traits so all of the numeric types can now be used in this funciton.)
+@[1-9]( Rusts numeric types i32, f64, u8 etc already implement both these traits so all of the numeric types can now be used in this funciton.)
 
 ---
 
@@ -714,14 +739,234 @@ impl Iterator for Counter {
 
 ```
 let counter = Counter { count: 0 };
-for count in counter.iter() {
-	println!("The count is: {}" count);
+for count in counter.into_iter() {
+	println!("The count is: {}", count);
 }
 ```
+
+---
 
 #### Iterator functions
 
 ```
 let counter = Counter { count: 0 };
+let count_sum = counter.sum(); // 15
+
+let counter = Counter { count: 0 };
+let count_map : Vec<u32> = counter.into_iter().map(|x| x * 2).collect(); // [2, 4, 6, 8, 10]
+
+let counter = Counter { count: 0 };
+let count_filter : Vec<u32> = counter.into_iter().filter(|x| x % 2 == 0).collect(); // [2, 4]
+```
+
+---
+
+### Ownership
+
+---
+
+#### Copy
 
 ```
+let s1 = "hi";
+let s2 = s1;
+println!("{}{}", s1, s1);
+```
+
+---
+
+#### Move
+
+```
+let s1 = String::from("hi");
+let s2 = s1;
+println!("{}", s2); // This is okay
+println!("{}{}", s1, s2); // value used here after move 
+```
+
+@[1](String is not Copy)
+@[2](The value of s1 is moved into s2 here, s2 now owns the value)
+@[3]( The value can be used from s2)
+@[4](It is an error to use a value after it is moved.)
+
+---
+
+#### Clone
+
+```
+let s1 = String::from("hi");
+let s2 = s1.clone();
+println!("{}{}", s1, s2);
+```
+
+@[1](String is Clone)
+@[2](The value of s1 is cloned)
+@[2](s1 and s2 are now different memory on the heap that have the same value)
+@[3](We can use both s1 and s2 again)
+
+---
+
+* Copy - bitcopy of data on the stack
+  * used with type that don't own other elements on the heap
+  * i32, f64, &str etc...
+* Move - changes what pointer is pointing to the heap memory
+  * used with heap allocated types
+  * String, Vec, HashMap etc...
+* Clone - The memory duplicated on the heap to a new variable
+  * used with heap allocated types
+  * String, Vec, Hasmap etc...
+
+---
+
+#### Function that borrows
+
+```
+fn print_borrowed_string(on_loan: &String) {
+	println!("I'm borrowing the {}", on_loan);
+}
+```
+
+---
+
+#### Function that owns
+
+```
+fn print_owned_string(mine_now: String) {
+	println!("The {} is mine now", mine_now);
+}
+```
+
+---
+
+#### Function that returns ownership
+
+```
+fn print_owned_string_but_give_it_back(mine: String) -> String{
+	println!("{}", mine);
+	mine // nevermind you can have it back
+}
+```
+
+---
+
+### Smart Pointers
+
+---
+
+#### Box<T>
+
+```
+let b = Box::new(5);
+println!("b = {}", b);
+```
+
+@[1](A pointer to the value 5 on the heap)
+
+---
+
+#### Rc<T> Reference Counting
+
+```
+use std::rc::Rc;
+
+let a = Rc::new(5);
+let b = a.clone();
+```
+
+@[3](A reference counted pointer to a value on the heap)
+@[4](cloning a Rc increases the reference count.)
+@[3-4](The data is shared but not mutable)
+
+---
+
+#### Rc<RefCell<T>>
+#### Shareable mutable container
+
+```
+use std::rc::Rc;
+use std::cell::RefCell;
+
+fn main() {
+    let shared_map: Rc<RefCell<_>> = Rc::new(RefCell::new(Vec::<String>::new()));
+    let another_way = shared_map.clone();
+    shared_map.borrow_mut().push(String::from("Inserted from shared_map"));
+    println!("{:?}", *another_way);
+    another_way.borrow_mut().push(String::from("Inserted from another_way"));
+    println!("{:?}", *shared_map);
+}
+```
+
+@[1-11](Data is shared and mutable)
+@[1-11](Rc<RefCell<T>> is good for single threaded sharing)
+
+---
+
+#### Arc<T> Atomic Reference Counting
+
+```
+use std::sync::Arc;
+use std::thread;
+
+fn main() {
+    let shared_data = Arc::new(5);
+    
+    let val = Arc::clone(&shared_data);
+    let child = thread::spawn(move || {
+        for i in 1..5 {
+            let value_plus_i = *val + i;
+            println!("val plus i : {}", value_plus_i);
+        }
+    });
+    
+    for x in 1..5 {
+        let value_plus_x = *shared_data + x;
+        println!("val plus x : {}", value_plus_x);
+    }
+
+    let _ = child.join();
+}
+```
+
+@[5-18]( Arc<T> is great for sharing immutable data accross threads)
+
+---
+
+#### Arc<Mutex<T>>
+#### Thread safe lock
+
+```
+use std::sync::{Arc, Mutex};
+use std::{thread, time};
+
+fn main() {
+    let ten_millis = time::Duration::from_millis(10);
+    let shared_data = Arc::new(Mutex::new(5));
+    
+    let shared_data2 = Arc::clone(&shared_data);
+    let child = thread::spawn(move || {
+        for _ in 1..5 {
+            {
+                let mut data = shared_data2.lock().unwrap();
+                *data += 1;
+                println!("data updated in child: {:?}", *data);
+            } // data unlocks here
+            thread::sleep(ten_millis);
+        }
+    });
+    
+    for _ in 1..5 {
+        {
+            let mut data = shared_data.lock().unwrap();
+            *data += 1;
+            println!("data updated in main: {:?}", *data);
+        } // data unlocks here
+        thread::sleep(ten_millis);
+    }
+    
+    let _ = child.join();
+}
+```
+
+---
+
+
