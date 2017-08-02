@@ -29,6 +29,10 @@ Why use Rust?
 * Low level results from a high level language
 * Interoperability with C (Can create C libraries)
 
+--- 
+
+#### Rust vs ?
+
 Not use Rust
 * Needs more mature libraries
 * Large existing code base written in language X
