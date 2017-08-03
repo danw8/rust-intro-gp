@@ -997,6 +997,34 @@ fn main() {
 
 ---
 
+#### Web Development
+
+* Rocket - Backend web framework
+* Quasar - Frontend Web Framework(emscripten)
+* Maud - Compile time template library
+* Diesel - An Object-relationoal Mapper(ORM) for rust
+
+---
+
+#### More Cool libraries
+
+* Vulkano - Safe wrapper for vulkan development
+* gfx-rs - Graphics library
+* tokio - A futures based async I/O library
+* piston - A modular Game engine
+* gtk-rs - Rust bindings to GLib, GDK3, GTK+ 3 and Cairo
+
+---
+
+#### Tools
+
+* Editor - vscode, atom, visual studio, etc.
+* IDE - RustyCode, Intellij(Rust extension)
+* Rust Language Server
+* Racer
+
+---
+
 #### Install rust Or
 
 [https://play.rust-lang.org/](https://play.rust-lang.org/)
