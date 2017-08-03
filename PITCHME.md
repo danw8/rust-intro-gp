@@ -28,25 +28,27 @@ Rust is a systems programming language that runs blazingly fast, prevents segfau
 
 ---
 
-#### Rust vs ?
+#### Use Rust if
 
-Use Rust For
+You want
 * Fast, zero cost abstractions
 * No Garbage collector
 * Memory safety at compile time
-* Designed to help prevent programmer bugs
+* Help preventing programmer bugs
 * Modern syntax
 * Low level results from a high level language
 * Interoperability with C (Can create C libraries)
 
 --- 
 
-#### Rust vs ?
+#### Don't use Rust if
 
-Don't use Rust if
+You have
 * Large existing code base written in language X
-* All of our developers are only willing to work in language X
-* You can't live without Garbage collection
+* Developers only willing to work in language X
+* A Company that dictates use of language X
+* A love for Garbage collection
+* A hatred for thinking about memory
 
 ---
 
@@ -466,6 +468,32 @@ fn main() {
 }
 ```
 
+---
+
+#### Result unwrap
+```
+use std::fs::File;
+
+fn main() {
+    let f = File::open("hello.txt").unwrap();
+}
+```
+@[4](Unwrap will panic if the result is Err)
+
+---
+
+#### Option
+
+```
+pub enum Option<T> {
+    None,
+    Some(T),
+}
+```
+
+@[1-4](Options are similar to results)
+@[1-4](Options don't have an error, they have None)
+@[1-4](Options panic when unwrap is called and the value is None)
 ---
 
 ### Generics
@@ -969,4 +997,6 @@ fn main() {
 
 ---
 
+#### Install rust Or
 
+[https://play.rust-lang.org/](https://play.rust-lang.org/)
