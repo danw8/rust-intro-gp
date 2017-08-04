@@ -3,6 +3,12 @@
 
 ---
 
+#### Disclaimer
+
+I am an enthusiast, not an expert.
+
+---
+
 #### What is Rust?
 
 Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
@@ -49,6 +55,7 @@ You have
 * A Company that dictates use of language X
 * A love for Garbage collection
 * A hatred for thinking about memory
+* A need for stability
 
 ---
 
@@ -72,11 +79,18 @@ fn main() {
 
 ---
 
+#### Compiling Tests
+
+* rustc --test test.rs
+
+---
+
 #### Using Cargo 
 
 * cargo new hello_world --bin
 * cd hello_world
 * cargo build
+* cargo test
 
 ---
 #### Variable binding
@@ -1002,7 +1016,7 @@ fn main() {
 * Rocket - Backend web framework
 * Quasar - Frontend Web Framework(emscripten)
 * Maud - Compile time template library
-* Diesel - An Object-relationoal Mapper(ORM) for rust
+* Diesel - An Object-relational Mapper(ORM) for rust
 
 ---
 
@@ -1018,13 +1032,22 @@ fn main() {
 
 #### Tools
 
-* Editor - vscode, atom, visual studio, etc.
-* IDE - RustyCode, Intellij(Rust extension)
+* Editors - vscode, atom, visual studio, etc.
+* IDE - RustDt, Intellij(Rust extension)
 * Rust Language Server
 * Racer
 
 ---
 
 #### Install rust Or
+Install
+[rust-lang.org](rust-lang.org)
 
+Play
 [https://play.rust-lang.org/](https://play.rust-lang.org/)
+
+----
+
+#### Rustlings
+
+[https://github.com/carols10cents/rustlings](https://github.com/carols10cents/rustlings)
