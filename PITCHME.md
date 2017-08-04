@@ -55,7 +55,6 @@ You have
 * A Company that dictates use of language X
 * A love for Garbage collection
 * A hatred for thinking about memory
-* A need for stability
 
 ---
 
@@ -79,9 +78,10 @@ fn main() {
 
 ---
 
-#### Compiling Tests
+#### Tests
 
 * rustc --test test.rs
+* run the resulting executable
 
 ---
 
