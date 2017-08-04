@@ -1,7 +1,0 @@
-[package]
-name = "rust-intro-gp"
-version = "0.1.0"
-authors = ["Daniel Wilkins <danielwilkins8@gmail.com>"]
-
-[dependencies]
-num = "*"
